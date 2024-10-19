@@ -12,7 +12,7 @@
 # Returns: N.A.
 ###########################
 usage() {
-	echo "bn <year> <assigned gender f|F|m|M|b|B>" >&2
+	echo "bn <year> <assigned gender: f|F|m|M|b|B>" >&2
 }
 
 ###########################
