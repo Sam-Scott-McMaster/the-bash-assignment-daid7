@@ -1,23 +1,89 @@
 #!/bin/bash
-# Given year and gender, output list of whitespace-separated names from standard input and print rank of each name.
-# Danny Dai, 400505160, 2024/10/20
+# Given year and gender, read lines of whitespace-separated names from standard input and print rank of each name.
+# Danny Dai, 400505160, 2024/10/18
+
+# Declare all functions
+
+###########################
+# Say usage to the user
+# Globals: None
+# Arguments: None
+# Outputs: says usage string to stderr
+# Returns: N.A.
+###########################
+usage() {
+	echo "bn <year> <assigned gender f|F|m|M|b|B>" >&2
+}
+
+###########################
+# Say help text to the user
+# Globals: None
+# Arguments: None
+# Outputs: output help text to stdout
+# Returns: 0
+###########################
+helper() {
+        echo "Title:       Baby Names Utility"
+	echo "Version:     v1.0.0"
+	echo "Overview:    Given year and gender, asks for lines of names separated by spaces, outputs rank for each name."
+	echo "Usage:       bn <year> <assigned gender f|F|m|M|b|B>"
+	echo "--help       outputs help message and exits"
+	exit 0
+}
+
+###########################
+# Given a single name, year, txt file path, and assigned gender, output the rank
+# Globals: None
+# Arguments: $1 = txt file path with year, $2 = assigned gender, $3 = name, $4 = year
+# Outputs: output rank
+# Returns: N.A.
+###########################
+rankName() { 
+	# display txt file, sort separated by comma and reverse numerical sort by occurences then sort by name,
+	# grep only names of the same gender, grep ignore case the exact name and gender and its line number, 
+	# cut everything at and after : to get line number only
+	rank=$(cat $1 | sort -t, -k3nr -k1 | grep -iP ",$2," | grep -inP "^$3,$2" | cut -d: -f1)		
+	
+	# display txt file, grep only that gender, count the lines for total number of names of that gender
+	total=$(cat $1 | grep -P ",$2," | wc -l)
+
+	# Use a variable to get the full word of the gender
+	if [[ $2 =~ [mM] ]]; then 
+		gender="male"
+	else
+		gender="female"
+	fi
+
+	# Negate the boolean expression to check for no match first
+	# check if rank is not found, else output ranking
+        if ! [[ $rank =~ . ]]; then
+                echo "$4: $3 not found among $gender names."
+        else
+                echo "$4: $3 ranked $rank out of $total $gender names."
+        fi
+}
+
+# Check if help is called
+if [[ $1 == '--help' ]];then
+	helper
+fi
 
 # Check for input errors
 # Wrong number of inputs -> exit code 1
 if [[ $# != 2 ]]
 then
-	echo "bn <year> <assigned gender f|F|m|M|b|B>" >&2
+	usage
 	exit 1
 fi
 
 # Wrong year or gender-> exit code 2
 if ! [[ $1 =~ ^[0-9]{4}$ ]]; then
 	echo "Badly formatted year: $1" >&2
-	echo "bn <year> <assigned gender f|F|m|M|b|B>" >&2
+	usage
 	exit 2
 elif ! [[ $2 =~ ^[fmFMbB]$ ]]; then
         echo "Badly formatted assigned gender: $2" >&2
-	echo "bn <year> <assigned gender f|F|m|M|b|B>" >&2
+	usage
         exit 2
 fi
 
@@ -28,21 +94,11 @@ if ! [[ -f "us_baby_names/yob$1.txt" ]]; then
 fi
 
 # Ask for line input and check if error
-### DONE ###CHANGE TO WHILE READ LINE, ADD HINT STDOUT FOR NO MATCH
-###CHECK IF TXT FILE EXISTS
 while read line
 do 
-
-	# Name contains more than alphabetical characters -> exit code 3
-    	#if ! [[ $line =~ ^[[:alpha:][:space:]]+$ ]]; then
-        #	echo "Badly formatted name: $line" >&2
-        #	exit 3
-   	#fi
-
     	# process line
     	for arg in $line
     	do
-
 		# Name contains more than alphabetical characters -> exit code 3
        		if ! [[ $arg =~ ^[[:alpha:]]+$ ]]; then
                 	echo "Badly formatted name: $arg" >&2
@@ -51,39 +107,15 @@ do
 
 	    	# For Female
             	if [[ $2 =~ [fF] ]]; then
-                    	rank=$(cat "us_baby_names/yob$1.txt" | sort -t, -k3nr -k1 | grep -P ",F," | grep -inP "^$arg,F" | cut -d: -f1)
-               	    	total=$(cat "us_baby_names/yob$1.txt" | grep -P ",F," | wc -l)
-
-		    	if ! [[ $rank =~ . ]]; then
-			    	echo "$1: $arg not found among female names."
-		    	else
-			    	echo "$1: $arg ranked $rank out of $total female names."
-		    	fi
+                    	rankName "us_baby_names/yob$1.txt" "F" $arg $1
 	    	# For Male
             	elif [[ $2 =~ [mM] ]]; then
-                    	rank=$(cat "us_baby_names/yob$1.txt" | sort -t, -k3nr -k1 | grep -P ",M," | grep -inP "^$arg,M" | cut -d: -f1)
-                    	total=$(cat "us_baby_names/yob$1.txt" | grep -P ",M," | wc -l)
-                    	if ! [[ $rank =~ . ]]; then
-                            	echo "$1: $arg not found among male names."
-                    	else    
-			    	echo "$1: $arg ranked $rank out of $total male names."
-		    	fi
+			rankName "us_baby_names/yob$1.txt" "M" $arg $1
             	# For Both
 	    	elif [[ $2 =~ [bB] ]]; then
-                    	rankF=$(cat "us_baby_names/yob$1.txt" | sort -t, -k3nr -k1 | grep -P ",F," | grep -inP "^$arg,F" | cut -d: -f1)
-                    	totalF=$(cat "us_baby_names/yob$1.txt" | grep -P ",F," | wc -l)
-                    	rankM=$(cat "us_baby_names/yob$1.txt" | sort -t, -k3nr -k1 | grep -P ",M," | grep -inP "^$arg,M" | cut -d: -f1)
-                    	totalM=$(cat "us_baby_names/yob$1.txt" | grep -P ",M," | wc -l)
-                    	if ! [[ $rankM =~ . ]]; then
-                            	echo "$1: $arg not found among male names."
-		    	else
-			    	echo "$1: $arg ranked $rankM out of $totalM male names."
-		    	fi
-		    	if ! [[ $rankF =~ . ]]; then
-                            	echo "$1: $arg not found among female names."
-		    	else
-			    	echo "$1: $arg ranked $rankF out of $totalF female names."
-		    	fi
+                    	rankName "us_baby_names/yob$1.txt" "M" $arg $1
+			rankName "us_baby_names/yob$1.txt" "F" $arg $1
             	fi
     	done
 done
+
