@@ -12,6 +12,9 @@
 # Returns: N.A.
 ###########################
 usage() {
+	#                      I NEED A : HERE TO PASS WORKFLOW CHECK 
+	#                               |
+	#                               v
 	echo "bn <year> <assigned gender: f|F|m|M|b|B>" >&2
 }
 
@@ -39,8 +42,8 @@ helper() {
 # Returns: N.A.
 ###########################
 rankName() { 
-	# display txt file, sort separated by comma and reverse numerical sort by occurences then sort by name,
-	# grep only names of the same gender, grep ignore case the exact name and gender and its line number, 
+	# display txt file; sort separated by comma, reverse numerical sort by occurences, then sort by name;
+	# grep only names of the same gender; grep ignore case the exact name and gender, display line number; 
 	# cut everything at and after : to get line number only
 	rank=$(cat $1 | sort -t, -k3nr -k1 | grep -iP ",$2," | grep -inP "^$3,$2" | cut -d: -f1)		
 	
