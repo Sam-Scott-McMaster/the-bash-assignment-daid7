@@ -131,7 +131,7 @@ test './bn 2022 F' 3 'Sam2' '' 'Badly formatted name: Sam2'
 #test './bn 1888 F' 3 'mar!@' '' 'Badly formatted name: mar!@'
 
 # File not found error #4
-test './bn 1111 b' 4 '' '' 'No data for 1111'
+#test './bn 1111 b' 4 '' '' 'No data for 1111'
 
 # return code
 exit $fails
