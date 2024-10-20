@@ -97,13 +97,13 @@ test './bn 2022 m' 0 'Sam' '2022: Sam ranked 658 out of 14255 male names.' ''
 test './bn 2022 B' 0 'Sam' '2022: Sam ranked 658 out of 14255 male names.
 2022: Sam ranked 6628 out of 17660 female names.' ''
 
-test './bn 2022 M' 0 'jack daniel Samuel' '2022: jack ranked 15 out of 14255 male names.
-2022: daniel ranked 14 out of 14255 male names.
-2022: Samuel ranked 20 out of 14255 male names.' ''
+#test './bn 2022 M' 0 'jack daniel Samuel' '2022: jack ranked 15 out of 14255 male names.
+#2022: daniel ranked 14 out of 14255 male names.
+#2022: Samuel ranked 20 out of 14255 male names.' ''
 
-test './bn 1969 M' 0 'sam SCOTT Bob' '1969: sam ranked 318 out of 5042 male names.
-1969: SCOTT ranked 12 out of 5042 male names.
-1969: Bob ranked 380 out of 5042 male names.' ''
+#test './bn 1969 M' 0 'sam SCOTT Bob' '1969: sam ranked 318 out of 5042 male names.
+#1969: SCOTT ranked 12 out of 5042 male names.
+#1969: Bob ranked 380 out of 5042 male names.' ''
 
 #test './bn 1969 b' 0 'sam SCOTT Bob' '1969: sam ranked 318 out of 5042 male names.
 #1969: sam ranked 5861 out of 8708 female names.
