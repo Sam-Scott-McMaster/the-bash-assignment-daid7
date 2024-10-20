@@ -92,7 +92,7 @@ fi
 
 # File does not exist -> exist code 4
 if ! [[ -f "us_baby_names/yob$1.txt" ]]; then
-	echo "No data for $1"
+	echo "No data for $1" >&2
 	exit 4
 fi
 
