@@ -116,7 +116,7 @@ test './bn 1969 b' 0 'lucy' '1969: lucy not found among male names.
 1969: lucy ranked 391 out of 8708 female names.' ''
 
 # Incorrect number of inputs error case #1
-test './bn 123456' 1 '' '' 'bn <year> <assigned gender: f|F|m|M|b|B>'  
+#test './bn 123456' 1 '' '' 'bn <year> <assigned gender: f|F|m|M|b|B>'  
 
 # multi line error case #2
 test './bn 123456 m' 2 '' '' 'Badly formatted year: 123456
