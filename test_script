@@ -87,16 +87,51 @@ test() {
 # simple success
 test './bn 2022 m' 0 'Sam' '2022: Sam ranked 658 out of 14255 male names.' ''
 
+test './bn 2022 M' 0 'owen' '2022: owen ranked 18 out of 14255 male names.' ''
+
+test './bn 1888 F' 0 'maria' '1888: maria ranked 138 out of 1474 female names.' ''
+
+test './bn 1969 M' 0 'lucy' '1969: lucy not found among male names.' ''
+
 # multi line success
 test './bn 2022 B' 0 'Sam' '2022: Sam ranked 658 out of 14255 male names.
 2022: Sam ranked 6628 out of 17660 female names.' ''
 
-# error case
-test './bn 2022 F' 3 'Sam2' '' 'Badly formatted name: Sam2'  
+test './bn 2022 M' 0 'jack daniel Samuel' '2022: jack ranked 15 out of 14255 male names.
+2022: daniel ranked 14 out of 14255 male names.
+2022: Samuel ranked 20 out of 14255 male names.' ''
+
+test './bn 1969 M' 0 'sam SCOTT Bob' '1969: sam ranked 318 out of 5042 male names.
+1969: SCOTT ranked 12 out of 5042 male names.
+1969: Bob ranked 380 out of 5042 male names.' ''
+
+test './bn 1969 b' 0 'sam SCOTT Bob' '1969: sam ranked 318 out of 5042 male names.
+1969: sam ranked 5861 out of 8708 female names.
+1969: SCOTT ranked 12 out of 5042 male names.
+1969: SCOTT ranked 983 out of 8708 female names.
+1969: Bob ranked 380 out of 5042 male names.
+1969: Bob not found among female names.' ''
+
+test './bn 1969 b' 0 'lucy' '1969: lucy not found among male names.
+1969: lucy ranked 391 out of 8708 female names.' ''
+
+# Incorrect number of inputs error case #1
+test './bn 123456' 1 '' '' 'bn <year> <assigned gender: f|F|m|M|b|B>'  
 
 # multi line error case #2
+test './bn 123456 m' 2 '' '' 'Badly formatted year: 123456
+bn <year> <assigned gender: f|F|m|M|b|B>'
+
 test './bn 1111 X' 2 '' '' 'Badly formatted assigned gender: X
 bn <year> <assigned gender: f|F|m|M|b|B>'
+
+# Badly formatted name error #3
+test './bn 2022 F' 3 'Sam2' '' 'Badly formatted name: Sam2'
+
+test './bn 1888 F' 3 'mar!@' '' 'Badly formatted name: mar!@'
+
+# File not found error #4
+test './bn 1111 b' 4 '' '' 'No data for 1111'
 
 # return code
 exit $fails
