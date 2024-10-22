@@ -100,7 +100,7 @@ do
     	for arg in $line
     	do
 		# Name contains more than alphabetical characters -> exit code 3
-       		if ! [[ $arg =~ ^[[a-zA-Z_]]+$ ]]; then
+       		if ! [[ $arg =~ ^[[:alpha:]]+$ ]]; then
                 	echo "Badly formatted name: $arg" >&2
                 	exit 3
         	fi
