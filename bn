@@ -42,16 +42,16 @@ rankName() {
 	# display txt file; sort separated by comma, reverse numerical sort by occurences, then sort by name;
 	# grep only names of the same gender; grep ignore case the exact name and gender, display line number; 
 	# cut everything at and after : to get line number only
-	rank=$(cat $1 | sort -t, -k3nr -k1 | grep -iP ",$2," | grep -inP "^$3,$2" | cut -d: -f1)		
+	local rank=$(cat $1 | sort -t, -k3nr -k1 | grep -iP ",$2," | grep -inP "^$3,$2" | cut -d: -f1)		
 	
 	# display txt file, grep only that gender, count the lines for total number of names of that gender
-	total=$(cat $1 | grep -P ",$2," | wc -l)
+	local total=$(cat $1 | grep -P ",$2," | wc -l)
 
 	# Use a variable to get the full word of the gender
 	if [[ $2 =~ [mM] ]]; then 
-		gender="male"
+		local gender="male"
 	else
-		gender="female"
+		local gender="female"
 	fi
 
 	# Negate the boolean expression to check for no match first
