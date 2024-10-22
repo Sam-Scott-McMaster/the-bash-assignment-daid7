@@ -12,9 +12,6 @@
 # Returns: N.A.
 ###########################
 usage() {
-	#                      I NEED A : HERE TO PASS WORKFLOW CHECK 
-	#                               |
-	#                               v
 	echo "bn <year> <assigned gender: f|F|m|M|b|B>" >&2
 }
 
@@ -103,7 +100,7 @@ do
     	for arg in $line
     	do
 		# Name contains more than alphabetical characters -> exit code 3
-       		if ! [[ $arg =~ ^[[:alpha:]]+$ ]]; then
+       		if ! [[ $arg =~ ^[[a-zA-Z]]+$ ]]; then
                 	echo "Badly formatted name: $arg" >&2
                 	exit 3
         	fi
