@@ -24,7 +24,7 @@ usage() {
 ###########################
 helper() {
         echo "Title:       Baby Names Utility"
-	echo "Version:     v1.0.0"
+	echo "Version:     v1.0.2"
 	echo "Overview:    Given year and gender, asks for lines of names separated by spaces, outputs rank for each name."
 	echo "Usage:       bn <year> <assigned gender f|F|m|M|b|B>"
 	echo "--help       outputs help message and exits"
